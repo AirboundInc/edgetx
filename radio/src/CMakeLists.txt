@@ -42,6 +42,7 @@ option(DEBUG_YAML "Turn on YAML traces" OFF)
 option(DEBUG_LABELS "Turn on Labels traces" OFF)
 option(NANO "Use nano newlib and binalloc" ON)
 option(TEST_BUILD_WARNING "Warn this is a test build" OFF)
+option(MODEL_LOCK "Hard-lock model editing (B&W radios: only model name and stick calibration)" OFF)
 option(MODULE_PROTOCOL_FCC "Add support for FCC modules" ON)
 option(MODULE_PROTOCOL_LBT "Add support for EU/LBT modules" ON)
 option(MODULE_PROTOCOL_D8 "Add support for D8 modules" ON)
@@ -301,6 +302,10 @@ endif()
 
 if(ASTERISK)
   add_definitions(-DASTERISK)
+endif()
+
+if(MODEL_LOCK)
+  add_definitions(-DMODEL_LOCK)
 endif()
 
 if(WATCHDOG AND NOT NATIVE_BUILD)

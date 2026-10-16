@@ -45,9 +45,26 @@ void abortPopMenu()
   TRACE("popMenu(%d) aborted", menuLevel);
 }
 
+#if defined(MODEL_LOCK)
+void menuCommonCalibOptions(event_t event);
+
+// Refuse every Model / Radio tab and the stick direction options
+static bool isLockedMenu(MenuHandlerFunc newMenu)
+{
+  bool locked = (newMenu == menuCommonCalibOptions);
+  for (const auto& tab : menuTabModel) locked |= (tab.menuFunc == newMenu);
+  for (const auto& tab : menuTabGeneral) locked |= (tab.menuFunc == newMenu);
+  if (locked) POPUP_WARNING("Locked");
+  return locked;
+}
+#endif
+
 void chainMenu(MenuHandlerFunc newMenu)
 {
   killAllEvents();
+#if defined(MODEL_LOCK)
+  if (isLockedMenu(newMenu)) return;
+#endif
   menuHandlers[menuLevel] = newMenu;
   menuEvent = EVT_ENTRY;
   // TODO ? AUDIO_KEY_PRESS();
@@ -58,12 +75,20 @@ void pushMenu(MenuHandlerFunc newMenu)
 {
   killAllEvents();
   if (menuLevel == DIM(menuHandlers) - 1) return;
+#if defined(MODEL_LOCK)
+  if (isLockedMenu(newMenu)) return;
+#endif
 
   if (menuLevel == 0) {
     if (newMenu == menuTabGeneral[0].menuFunc)
       menuVerticalPositions[0] = 1;
     if (newMenu == menuModelSelect)
       menuVerticalPositions[0] = 0;
+#if defined(MODEL_LOCK)
+    // name edits on the locked screen are saved to the model
+    if (newMenu == menuModelLocked)
+      menuVerticalPositions[0] = 0;
+#endif
   }
   else {
     menuVerticalPositions[menuLevel] = menuVerticalPosition;

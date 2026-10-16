@@ -406,6 +406,12 @@ void menuMainView(event_t event)
       break;
 #endif
 
+#if defined(MODEL_LOCK)
+    case EVT_KEY_MODEL_MENU:
+    case EVT_KEY_GENERAL_MENU:
+      pushMenu(menuModelLocked);
+      break;
+#else
     case EVT_KEY_MODEL_MENU:
       pushMenu(menuModelSelect);
       break;
@@ -413,6 +419,7 @@ void menuMainView(event_t event)
     case EVT_KEY_GENERAL_MENU:
       pushMenu(menuTabGeneral[0].menuFunc);
       break;
+#endif
 
 #if defined(EVT_KEY_PREVIOUS_VIEW)
       // TODO try to split those 2 cases on 9X

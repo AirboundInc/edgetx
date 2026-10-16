@@ -476,6 +476,12 @@ void menuMainView(event_t event)
       POPUP_MENU_START(onMainViewMenu, 3, STR_RESET_SUBMENU, STR_STATISTICS, STR_ABOUT_US);
       break;
 
+#if defined(MODEL_LOCK)
+    case EVT_KEY_MODEL_MENU:
+    case EVT_KEY_GENERAL_MENU:
+      pushMenu(menuModelLocked);
+      break;
+#else
     case EVT_KEY_MODEL_MENU:
       pushMenu(menuModelSelect);
       break;
@@ -483,6 +489,7 @@ void menuMainView(event_t event)
     case EVT_KEY_GENERAL_MENU:
       pushMenu(menuTabGeneral[0].menuFunc);
       break;
+#endif
 
     case EVT_KEY_NEXT_VIEW:
       storageDirty(EE_MODEL);

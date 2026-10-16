@@ -165,6 +165,9 @@ void menuModelDisplay(event_t event);
 #if defined(USBJ_EX)
 void menuModelUSBJoystick(event_t event);
 #endif
+#if defined(MODEL_LOCK)
+void menuModelLocked(event_t event);
+#endif
 
 extern const MenuHandler menuTabGeneral[MENU_RADIO_PAGES_COUNT];
 extern const MenuHandler menuTabModel[MENU_MODEL_PAGES_COUNT];

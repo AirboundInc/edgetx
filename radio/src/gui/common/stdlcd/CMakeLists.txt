@@ -24,6 +24,10 @@ set(GUI_SRC
   model_curve_edit.cpp
   )
 
+if(MODEL_LOCK)
+  set(GUI_SRC ${GUI_SRC} ../common/stdlcd/model_lock.cpp)
+endif()
+
 if(PXX2 OR LUA OR MULTIMODULE)
   set(GUI_SRC ${GUI_SRC} ../common/stdlcd/radio_tools.cpp)
 endif()
